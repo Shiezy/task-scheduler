@@ -6,6 +6,7 @@ import com.holdings.taskscheduler.model.User;
 import com.holdings.taskscheduler.model.enumeration.RoleEnum;
 import com.holdings.taskscheduler.repository.RoleRepository;
 import com.holdings.taskscheduler.repository.UserRepository;
+import com.holdings.taskscheduler.service.AuthService;
 import com.holdings.taskscheduler.service.UserDetailsImpl;
 import com.holdings.taskscheduler.service.dto.LoginDTO;
 import com.holdings.taskscheduler.service.dto.UserDTO;
@@ -50,39 +51,17 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    AuthService authService;
+
 //    private Logger logger = (Logger) LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginDTO loginRequest) {
 
         System.out.println("Let's Sign in {}"+ loginRequest);
-        try{
-            Authentication authentication  = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getPhone(), loginRequest.getPassword()));
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = jwtUtils.generateJwtToken(authentication);
-
-            System.out.println("Got here jwt"+ jwt);
-
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            List<String> roles = userDetails.getAuthorities().stream()
-                    .map(item -> item.getAuthority())
-                    .collect(Collectors.toList());
-
-            return ResponseEntity.ok(new JwtResponse(jwt,
-                    userDetails.getId(),
-                    userDetails.getUsername(),
-                    userDetails.getEmail(),
-                    roles));
-        } catch (Exception ex){
-            System.out.println("Encountered Exception"+ ex.getLocalizedMessage());
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse(ex.getLocalizedMessage()));
-        }
-
-
+        return authService.login(loginRequest);
 
     }
 
@@ -93,7 +72,7 @@ public class AuthController {
         if (userRepository.existsByPhone(signUpRequest.getPhone())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("Error: Phone Number is already Registered!"));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
