@@ -23,7 +23,7 @@ public class TestController {
 
 	@GetMapping("/super")
 	@PreAuthorize("hasRole('ROLE_SUPER')")
-	public String moderatorAccess() {
+	public String superAccess() {
 		return "Super user Board.";
 	}
 

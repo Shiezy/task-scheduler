@@ -39,11 +39,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new AuthTokenFilter();
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -68,22 +63,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().mvcMatchers(HttpMethod.OPTIONS, "/**");
-//        // ignore swagger
-//        web.ignoring().mvcMatchers("/swagger-ui.html/**", "/configuration/**", "/swagger-resources/**", "/v2/api-docs");
-//    }
-
-//     .antMatchers("/",
-//                          "/favicon.ico",
-//                          "/**/*.png",
-//                          "/**/*.gif",
-//                          "/**/*.svg",
-//                          "/**/*.jpg",
-//                          "/**/*.html",
-//                          "/**/*.css",
-//                          "/**/*.js").permitAll()
 
 }
 

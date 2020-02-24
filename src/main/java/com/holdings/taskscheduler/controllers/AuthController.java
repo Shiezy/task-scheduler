@@ -7,18 +7,12 @@ import com.holdings.taskscheduler.model.enumeration.RoleEnum;
 import com.holdings.taskscheduler.repository.RoleRepository;
 import com.holdings.taskscheduler.repository.UserRepository;
 import com.holdings.taskscheduler.service.AuthService;
-import com.holdings.taskscheduler.service.UserDetailsImpl;
 import com.holdings.taskscheduler.service.dto.LoginDTO;
 import com.holdings.taskscheduler.service.dto.UserDTO;
-import com.holdings.taskscheduler.service.dto.response.JwtResponse;
 import com.holdings.taskscheduler.service.dto.response.MessageResponse;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +23,7 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
